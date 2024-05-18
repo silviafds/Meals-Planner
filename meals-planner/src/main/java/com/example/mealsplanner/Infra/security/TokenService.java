@@ -9,14 +9,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDate;
+import java.util.HashSet;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Set;
 
 @Service
 public class TokenService {
     @Value("${api.secrety.token.secret}")
     private String secret;
+
+    private Set<String> tokenBlacklist = new HashSet<>();
+
     public String generateToken(User user) {
         try {
             Algorithm algorithm =  Algorithm.HMAC256(secret);
@@ -48,5 +52,13 @@ public class TokenService {
 
     private Instant generateExpirateDate() {
         return LocalDateTime.now().plusHours(8).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    public void addToBlacklist(String token) {
+        tokenBlacklist.add(token);
+    }
+
+    public boolean isTokenBlacklisted(String token) {
+        return tokenBlacklist.contains(token);
     }
 }

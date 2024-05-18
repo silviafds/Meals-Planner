@@ -27,16 +27,34 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        var login = tokenService.validateToken(token);
 
-        if (login != null) {
-            User user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontado."));
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (token != null) {
+            if (tokenService.isTokenBlacklisted(token)) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid or blacklisted token");
+                return;
+            }
+
+            try {
+                var login = tokenService.validateToken(token);
+                User user = userRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Usuário não encontado."));
+
+                if (user == null) {
+                    throw new RuntimeException("Token expirado ou inválido");
+                }
+                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+                var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } catch (Exception e) {
+                SecurityContextHolder.clearContext();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado ou inválido");
+                return;
+            }
         }
+
         filterChain.doFilter(request, response);
     }
+
 
     private String recoverToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
