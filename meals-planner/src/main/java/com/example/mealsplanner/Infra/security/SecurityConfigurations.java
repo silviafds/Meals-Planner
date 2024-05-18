@@ -1,5 +1,7 @@
 package com.example.mealsplanner.Infra.security;
 
+import com.example.mealsplanner.Infra.security.Mensagem.CustomAccessDeniedHandler;
+import com.example.mealsplanner.Infra.security.Mensagem.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfigurations {
 
     @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Autowired
     SecurityFilter securityFilter;
 
     @Autowired
@@ -34,6 +42,10 @@ public class SecurityConfigurations {
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/cadastro").permitAll()
                                 .anyRequest().authenticated()
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                        .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
