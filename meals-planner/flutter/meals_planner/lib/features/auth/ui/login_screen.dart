@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/text/textStyles/app_textstyles.dart';
 import 'widgets/login_form.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -13,9 +14,9 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'MealsPlanner',
-                style: TextStyle(fontSize: 60, color: Colors.blue),
+                style: AppTextStyles.logoTextStyle,
               ),
               const SizedBox(
                 height: 50,

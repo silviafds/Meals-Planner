@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/text/textStyles/app_textstyles.dart';
 import 'widgets/register_form.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -18,16 +19,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'MealsPlanner',
-                style: TextStyle(fontSize: 60, color: Colors.blue),
+                style: AppTextStyles.logoTextStyle,
               ),
               const SizedBox(
                 height: 20,
               ),
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 100,
-                child: Text('Imagem'),
+                backgroundColor: Colors.purple.shade200,
+                foregroundColor: Colors.white,
+                child: const Text('Imagem'),
               ),
               const SizedBox(
                 height: 20,
