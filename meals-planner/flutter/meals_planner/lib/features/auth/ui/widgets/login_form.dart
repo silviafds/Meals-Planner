@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import '../../data/auth_repository.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -11,6 +15,8 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, String>{};
   bool _isPasswordHidden = true;
+
+  final _authRepository = AuthRepository();
 
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
@@ -30,8 +36,16 @@ class _LoginFormState extends State<LoginForm> {
     _formData['email'] = _emailTextController.text;
     _formData['password'] = _passwordTextController.text;
 
-    //call login method and foward _formData
-    Navigator.of(context).pushReplacementNamed('/home');
+    try {
+      _authRepository.login(_formData);
+      Navigator.of(context).pushReplacementNamed('/home');
+    } on HttpException catch (exception) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(exception.message)));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Erro ao tentar logar!')));
+    }
   }
 
   @override

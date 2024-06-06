@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import '../../data/auth_repository.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -11,6 +15,8 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, String>{};
   bool _isPasswordHidden = true;
+
+  final _authRepository = AuthRepository();
 
   final _nameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
@@ -32,8 +38,16 @@ class _RegisterFormState extends State<RegisterForm> {
     _formData['email'] = _emailTextController.text;
     _formData['password'] = _passwordTextController.text;
 
-    //call sign up method and foward _formData
-    // Navigator.of(context).pushReplacementNamed('/home');
+    try {
+      _authRepository.registerUser(_formData);
+      Navigator.of(context).pushReplacementNamed('/home');
+    } on HttpException catch (exception) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(exception.message)));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Erro ao tentar registrar usuário!')));
+    }
   }
 
   @override

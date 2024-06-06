@@ -15,6 +15,18 @@ class MealsPlannerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        colorScheme: ColorScheme.light(primary: Colors.purple.shade300),
+        primaryColor: Colors.purple.shade300,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style:
+              ElevatedButton.styleFrom(backgroundColor: Colors.purple.shade300),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: Colors.purple.shade300),
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => AuthScreen(),
         '/home': (context) => const HomeScreen(),
