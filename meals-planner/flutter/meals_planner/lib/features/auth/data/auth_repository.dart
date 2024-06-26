@@ -7,11 +7,16 @@ import '../../../core/entities/user.dart';
 
 class AuthRepository {
   final _user = User();
-  final _url = 'http://mealsplaner.com/api/v1';
+  final _url = 'http://192.168.0.153:8080/auth';
 
-  void registerUser(Map<String, String> userData) async {
+  Future<void> registerUser(Map<String, String> userData) async {
     final response = await httpClient.post(Uri.parse('$_url/cadastro'),
-        body: jsonEncode(userData));
+        body: jsonEncode({
+          'name': userData['name'],
+          'email': userData['email'],
+          'password': userData['password']
+        }),
+        headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = jsonDecode(response.body);
@@ -23,14 +28,10 @@ class AuthRepository {
     }
   }
 
-  void login(Map<String, String> userData) async {
-    // final response = await httpClient.post(Uri.parse('$_url/login'),
-    //     body: jsonEncode(userData));
-    final body = json.encode({
-      'name': 'Hilton',
-      'token': 'HasmaADenkjbDANA',
-    });
-    final response = Response(200, body);
+  Future<void> login(Map<String, String> userData) async {
+    final response = await httpClient.post(Uri.parse('$_url/login'),
+        body: jsonEncode(userData),
+        headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final data = jsonDecode(response.body);

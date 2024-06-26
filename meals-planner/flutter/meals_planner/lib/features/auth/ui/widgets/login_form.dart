@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/entities/user.dart';
 import '../../data/auth_repository.dart';
 
 class LoginForm extends StatefulWidget {
@@ -15,6 +16,7 @@ class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, String>{};
   bool _isPasswordHidden = true;
+  final _user = User();
 
   final _authRepository = AuthRepository();
 
@@ -29,7 +31,7 @@ class _LoginFormState extends State<LoginForm> {
     super.initState();
   }
 
-  void _validateForm() {
+  void _validateForm() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -37,8 +39,13 @@ class _LoginFormState extends State<LoginForm> {
     _formData['password'] = _passwordTextController.text;
 
     try {
-      _authRepository.login(_formData);
-      Navigator.of(context).pushReplacementNamed('/home');
+      _authRepository.login(_formData).then((_) {
+        if (_user.userToken != null) {
+          if (_user.userToken!.isNotEmpty) {
+            Navigator.of(context).pushReplacementNamed('/home');
+          }
+        }
+      });
     } on HttpException catch (exception) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(exception.message)));
@@ -113,8 +120,6 @@ class _LoginFormState extends State<LoginForm> {
                   if (value != null) {
                     if (value.isEmpty) {
                       return 'Insert a password';
-                    } else if (value.length < 6) {
-                      return 'Password is too short. At last 6 characters';
                     } else {
                       return null;
                     }
