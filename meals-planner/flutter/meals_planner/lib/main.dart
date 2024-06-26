@@ -1,12 +1,13 @@
 import "package:flutter/material.dart";
+import "package:flutter_config/flutter_config.dart";
+import "package:flutter_modular/flutter_modular.dart";
 
-import "features/auth/ui/auth_screen.dart";
-import "features/auth/ui/login_screen.dart";
-import "features/auth/ui/register_screen.dart";
-import "features/home/ui/home_screen.dart";
+import "app_module.dart";
 
-void main() {
-  runApp(const MealsPlannerApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
+  await FlutterConfig.loadEnvVariables();
+  runApp(ModularApp(module: AppModule(), child: const MealsPlannerApp()));
 }
 
 class MealsPlannerApp extends StatelessWidget {
@@ -14,7 +15,9 @@ class MealsPlannerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      title: 'Meals Planner',
+      routerConfig: Modular.routerConfig,
       theme: ThemeData(
         colorScheme: ColorScheme.light(primary: Colors.purple.shade300),
         primaryColor: Colors.purple.shade300,
@@ -27,12 +30,6 @@ class MealsPlannerApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => AuthScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/login-screen': (context) => const LoginScreen(),
-        '/register-screen': (context) => const RegisterScreen(),
-      },
     );
   }
 }

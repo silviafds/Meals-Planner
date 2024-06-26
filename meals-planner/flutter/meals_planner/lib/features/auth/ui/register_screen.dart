@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../core/text/textStyles/app_textstyles.dart';
 import 'widgets/register_form.dart';
@@ -37,8 +38,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               const RegisterForm(),
               TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushReplacementNamed('/login-screen'),
+                  onPressed: () =>
+                      Modular.to.pushReplacementNamed('/login-screen'),
                   child: const Text('Login'))
             ],
           ),

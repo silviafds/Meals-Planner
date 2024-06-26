@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-import '../interactor/home_controller.dart';
+import '../interactor/blocs/home_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,21 +11,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _homeController = Modular.get<HomeBloc>();
   @override
   Widget build(BuildContext context) {
-    final _homeController = HomeController();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('MealsPlanner'),
         actions: [
           IconButton(
               onPressed: () async {
-                await _homeController.logout();
-
-                if (!mounted) return;
-
-                Navigator.of(context).pushReplacementNamed('/');
+                await _homeController
+                    .logout()
+                    .then((_) => Modular.to.pushReplacementNamed('/'));
               },
               icon: const Icon(Icons.logout_outlined))
         ],

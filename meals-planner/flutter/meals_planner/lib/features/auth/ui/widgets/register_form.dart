@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
-import '../../../../core/entities/user.dart';
-import '../../data/auth_repository.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:meal_planner/features/auth/interactor/blocs/auth_bloc.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -13,12 +12,10 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  final _authBloc = Modular.get<AuthBloc>();
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, String>{};
   bool _isPasswordHidden = true;
-  final _user = User();
-
-  final _authRepository = AuthRepository();
 
   final _nameTextController = TextEditingController();
   final _emailTextController = TextEditingController();
@@ -42,15 +39,17 @@ class _RegisterFormState extends State<RegisterForm> {
     _formData['password'] = _passwordTextController.text;
 
     try {
-      _authRepository.registerUser(_formData).then((_) {
-        if (_user.userToken != null) {
-          Navigator.of(context).pushReplacementNamed('/home');
-        }
-      });
+      await _authBloc.registerUser(_formData);
     } on HttpException catch (exception) {
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(exception.message)));
     } catch (e) {
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Erro ao tentar registrar usuário!')));
     }

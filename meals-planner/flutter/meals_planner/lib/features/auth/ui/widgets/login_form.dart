@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../../../core/entities/user.dart';
-import '../../data/auth_repository.dart';
+import '../../interactor/blocs/auth_bloc.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -13,12 +13,10 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _authBloc = Modular.get<AuthBloc>();
   final _formKey = GlobalKey<FormState>();
   final _formData = <String, String>{};
   bool _isPasswordHidden = true;
-  final _user = User();
-
-  final _authRepository = AuthRepository();
 
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
@@ -39,17 +37,17 @@ class _LoginFormState extends State<LoginForm> {
     _formData['password'] = _passwordTextController.text;
 
     try {
-      _authRepository.login(_formData).then((_) {
-        if (_user.userToken != null) {
-          if (_user.userToken!.isNotEmpty) {
-            Navigator.of(context).pushReplacementNamed('/home');
-          }
-        }
-      });
+      await _authBloc.login(_formData);
     } on HttpException catch (exception) {
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(exception.message)));
     } catch (e) {
+      if (!mounted) {
+        return;
+      }
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Erro ao tentar logar!')));
     }

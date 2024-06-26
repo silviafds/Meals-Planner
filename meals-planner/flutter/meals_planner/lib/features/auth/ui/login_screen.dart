@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../core/text/textStyles/app_textstyles.dart';
 import 'widgets/login_form.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +29,8 @@ class LoginScreen extends StatelessWidget {
               ),
               const LoginForm(),
               TextButton(
-                  onPressed: () => Navigator.of(context)
-                      .pushReplacementNamed('/register-screen'),
+                  onPressed: () =>
+                      Modular.to.pushReplacementNamed('/register-screen'),
                   child: const Text('Sign up'))
             ],
           ),

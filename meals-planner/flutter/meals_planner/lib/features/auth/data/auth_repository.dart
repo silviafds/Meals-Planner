@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as httpClient;
+import 'package:flutter_config/flutter_config.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../core/entities/user.dart';
 
 class AuthRepository {
-  final _user = User();
-  final _url = 'http://192.168.0.153:8080/auth';
+  final User _user;
+  AuthRepository(this._user);
+  final _url = FlutterConfig.get('API_URL');
+  final _registerEndpoint = FlutterConfig.get('SIGN_UP_ENDPOINT');
+  final _loginEndpoint = FlutterConfig.get('LOGIN_ENDPOINT');
 
   Future<void> registerUser(Map<String, String> userData) async {
-    final response = await httpClient.post(Uri.parse('$_url/cadastro'),
+    final response = await http.post(Uri.http(_url, _registerEndpoint),
         body: jsonEncode({
           'name': userData['name'],
           'email': userData['email'],
@@ -29,7 +33,7 @@ class AuthRepository {
   }
 
   Future<void> login(Map<String, String> userData) async {
-    final response = await httpClient.post(Uri.parse('$_url/login'),
+    final response = await http.post(Uri.http(_url, _loginEndpoint),
         body: jsonEncode(userData),
         headers: {'Content-Type': 'application/json'});
 

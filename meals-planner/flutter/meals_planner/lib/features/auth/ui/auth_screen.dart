@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../home/ui/home_screen.dart';
 import 'login_screen.dart';
 
 class AuthScreen extends StatelessWidget {
-  AuthScreen({super.key});
-  bool isLogged = false;
+  const AuthScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return isLogged ? const HomeScreen() : const LoginScreen();
+    return const LoginScreen();
   }
 }
