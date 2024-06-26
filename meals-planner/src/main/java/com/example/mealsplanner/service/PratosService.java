@@ -4,6 +4,7 @@ import com.example.mealsplanner.domain.pratos.Pratos;
 import com.example.mealsplanner.repository.PratosRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -23,5 +24,7 @@ public class PratosService {
         return pratosRepository.buscarPratosPorId(id);
     }
 
-
+    public List<Pratos> filtrarPatrosPorCaloria(BigDecimal caloria) {
+        return pratosRepository.listarPratosCaloria(caloria);
+    }
 }
