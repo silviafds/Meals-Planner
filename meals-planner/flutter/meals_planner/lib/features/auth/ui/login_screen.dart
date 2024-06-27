@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const LoginForm(),
               TextButton(
                   onPressed: () =>
-                      Modular.to.pushReplacementNamed('/register-screen'),
+                      Modular.to.pushReplacementNamed('/register-screen/'),
                   child: const Text('Sign up'))
             ],
           ),

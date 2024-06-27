@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/colors/app_colors.dart';
 import '../../../../core/entities/dishes.dart';
 import '../../../../core/text/textStyles/app_textstyles.dart';
 
@@ -11,7 +12,7 @@ class DishCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: Colors.purple,
+      color: AppColors.mainColor,
       child: SizedBox(
         width: 100,
         height: 430,

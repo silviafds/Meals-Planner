@@ -12,6 +12,7 @@ class DishesRepository {
   DishesRepository(this._user);
   final _url = FlutterConfig.get('API_URL');
   final _getDishesEndpoint = FlutterConfig.get('DISHES_ENDPOINT');
+
   Future<List<Dishes>> getDishes() async {
     final response =
         await http.get(Uri.http(_url, _getDishesEndpoint), headers: {

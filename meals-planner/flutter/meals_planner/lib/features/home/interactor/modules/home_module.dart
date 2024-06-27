@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../../core/entities/user.dart';
 import '../../../auth/data/auth_repository.dart';
+import '../../../dish-details/ui/dish_details_screen.dart';
 import '../../data/dishes_repository.dart';
 import '../../ui/home_screen.dart';
 import '../blocs/home_bloc.dart';
@@ -18,5 +19,9 @@ class HomeModule extends Module {
   @override
   void routes(r) {
     r.child('/', child: (context) => const HomeScreen());
+    r.child('/dish-details',
+        child: (context) => DishDetailsScreen(
+              dish: Modular.args.data,
+            ));
   }
 }
