@@ -78,14 +78,14 @@ class _LoginFormState extends State<LoginForm> {
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return 'Insert an email';
+                      return 'Insira um email';
                     } else if (!value.contains('@')) {
-                      return 'Insert a valid email';
+                      return 'Insira um email válido';
                     } else {
                       return null;
                     }
                   } else {
-                    return 'Insert an email';
+                    return 'Insira um email';
                   }
                 },
               ),
@@ -112,17 +112,17 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: 'Password',
+                  hintText: 'Senha',
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return 'Insert a password';
+                      return 'Insira uma senha';
                     } else {
                       return null;
                     }
                   } else {
-                    return 'Insert a password';
+                    return 'Insira uma senha';
                   }
                 },
               ),
@@ -133,8 +133,13 @@ class _LoginFormState extends State<LoginForm> {
                 onPressed: () {
                   _validateForm();
                 },
-                child: const Text(
-                  'Login',
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 200,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: const Text(
+                    'Entrar',
+                  ),
                 ),
               ),
             ],

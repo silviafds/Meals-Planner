@@ -31,7 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 radius: 100,
                 backgroundColor: Colors.purple.shade200,
                 foregroundColor: Colors.white,
-                child: const Text('Imagem'),
+                foregroundImage:
+                    const AssetImage('assets/images/profile-picture.jpeg'),
               ),
               const SizedBox(
                 height: 20,
@@ -40,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextButton(
                   onPressed: () =>
                       Modular.to.pushReplacementNamed('/login-screen'),
-                  child: const Text('Login'))
+                  child: const Text('Já tem uma conta? Faça login'))
             ],
           ),
         ),

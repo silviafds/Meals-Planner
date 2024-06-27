@@ -75,17 +75,17 @@ class _RegisterFormState extends State<RegisterForm> {
                   isDense: true,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: 'Name',
+                  hintText: 'Nome',
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return 'Insert a name';
+                      return 'Insira um nome';
                     } else {
                       return null;
                     }
                   } else {
-                    return 'Insert a name';
+                    return 'Insira um nome';
                   }
                 },
               ),
@@ -103,14 +103,14 @@ class _RegisterFormState extends State<RegisterForm> {
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return 'Insert an email';
+                      return 'Insira um email';
                     } else if (!value.contains('@')) {
-                      return 'Insert a valid email';
+                      return 'Insira um email válido';
                     } else {
                       return null;
                     }
                   } else {
-                    return 'Insert an email';
+                    return 'Insira um email';
                   }
                 },
               ),
@@ -137,17 +137,17 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  hintText: 'Password',
+                  hintText: 'Senha',
                 ),
                 validator: (value) {
                   if (value != null) {
                     if (value.isEmpty) {
-                      return 'Insert a password';
+                      return 'Insira uma senha';
                     } else {
                       return null;
                     }
                   } else {
-                    return 'Insert a password';
+                    return 'Insira uma senha';
                   }
                 },
               ),
@@ -158,8 +158,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 onPressed: () {
                   _validateForm();
                 },
-                child: const Text(
-                  'Sign up',
+                child: Container(
+                  width: 200,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: const Text(
+                    'Criar conta',
+                  ),
                 ),
               ),
             ],

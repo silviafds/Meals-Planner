@@ -25,6 +25,15 @@ class DishCard extends StatelessWidget {
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20))),
               height: 250,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                child: Image.asset(
+                  'assets/images/comidas.jpeg',
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             Positioned(
               top: 260,

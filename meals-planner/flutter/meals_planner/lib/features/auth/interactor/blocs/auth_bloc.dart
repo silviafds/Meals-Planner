@@ -14,7 +14,7 @@ class AuthBloc {
     try {
       await _authRepository.login(loginInfo).then((_) {
         if (_user.userToken != null) {
-          Modular.to.pushReplacementNamed('home');
+          Modular.to.pushReplacementNamed('home/');
         }
       });
     } on HttpException catch (e) {

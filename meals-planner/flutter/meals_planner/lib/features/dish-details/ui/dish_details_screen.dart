@@ -72,9 +72,15 @@ class _DishDetailsScreenState extends State<DishDetailsScreen> {
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 15),
-                    child: Text(
-                      'Informações nutricionais:',
-                      style: AppTextStyles.dishDetailsInfoTitle,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Informações nutricionais:',
+                          style: AppTextStyles.dishDetailsInfoTitle,
+                        ),
+                        IconButton(onPressed: null, icon: Icon(Icons.edit))
+                      ],
                     ),
                   ),
                 ),

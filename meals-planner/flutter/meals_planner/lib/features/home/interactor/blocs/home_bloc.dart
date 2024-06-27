@@ -19,14 +19,32 @@ class HomeBloc {
     _authRepository.logout();
   }
 
+  List<Dishes> _dishes = [];
+  List<Dishes> _filteredBySearchDishes = [];
+
   Future<void> getDishes() async {
     try {
-      final dishes = await _dishesRepository.getDishes();
-      _dishesListSubject.sink.add(dishes);
+      _dishes = await _dishesRepository.getDishes();
+      _filteredBySearchDishes = _dishes;
+      _dishesListSubject.sink.add(_filteredBySearchDishes);
     } on HttpException catch (_) {
       rethrow;
     } catch (_) {
       rethrow;
     }
+  }
+
+  void filterDishesBySearch(String search) {
+    if (search.isNotEmpty) {
+      if (_dishes.isNotEmpty) {
+        _filteredBySearchDishes = _dishes
+            .where((dish) =>
+                dish.nome.toLowerCase().contains(search.toLowerCase()))
+            .toList();
+      }
+    } else {
+      _filteredBySearchDishes = _dishes;
+    }
+    _dishesListSubject.sink.add(_filteredBySearchDishes);
   }
 }

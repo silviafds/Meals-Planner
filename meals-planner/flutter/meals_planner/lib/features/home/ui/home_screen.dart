@@ -18,9 +18,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _homeBloc = Modular.get<HomeBloc>();
+  final _searchTextController = TextEditingController();
+  final _searchTextFieldFocusNode = FocusNode();
 
   @override
   void initState() {
+    _searchTextController.text = '';
     _getDishesList();
     super.initState();
   }
@@ -59,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
           CircleAvatar(
             backgroundColor: Colors.grey,
             radius: 30,
+            foregroundImage: AssetImage('assets/images/profile-picture.jpeg'),
           ),
           SizedBox(
             width: 30,
@@ -68,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -80,10 +84,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey.shade400),
-                child: const TextField(
+                child: TextField(
+                  focusNode: _searchTextFieldFocusNode,
+                  controller: _searchTextController,
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      suffixIcon: Icon(Icons.search),
+                      border:
+                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            _searchTextFieldFocusNode.hasPrimaryFocus
+                                ? _searchTextFieldFocusNode.unfocus()
+                                : null;
+                            _homeBloc.filterDishesBySearch(
+                                _searchTextController.text);
+                          },
+                          icon: const Icon(Icons.search)),
                       hintText: 'Search'),
                 ),
               ),
@@ -104,19 +119,22 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            StreamBuilder<List<Dishes>>(
-                stream: _homeBloc.dishes,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final dishes = snapshot.data;
+            Expanded(
+              child: StreamBuilder<List<Dishes>>(
+                  stream: _homeBloc.dishes,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final dishes = snapshot.data;
 
-                    if (dishes!.isEmpty) {
-                      return const Center(
-                        child: Text('Nenhum prato cadastrado'),
-                      );
-                    } else {
-                      return Expanded(
-                        child: ListView.separated(
+                      if (dishes!.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            'Nenhum prato cadastrado',
+                            style: AppTextStyles.homeScreenGreetingsTextStyle,
+                          ),
+                        );
+                      } else {
+                        return ListView.separated(
                           separatorBuilder: (context, index) => const SizedBox(
                             height: 40,
                           ),
@@ -128,65 +146,81 @@ class _HomeScreenState extends State<HomeScreen> {
                               dish: dishes[index],
                             ),
                           ),
-                        ),
+                        );
+                      }
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
                     }
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                })
+                  }),
+            )
           ],
         ),
       ),
       drawer: Drawer(
+        elevation: 10,
         backgroundColor: AppColors.mainColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: SafeArea(
             child: Stack(children: [
+              Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey.shade400,
+                      radius: 70,
+                      foregroundImage: const AssetImage(
+                          'assets/images/profile-picture.jpeg'),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Align(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      'Olá, CJ',
+                      style: AppTextStyles.homeScreenGreetingsTextStyle,
+                    ),
+                  ),
+                ],
+              ),
               Align(
-                alignment: Alignment.topCenter,
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey.shade400,
-                  radius: 70,
-                ),
-              ),
-              const Positioned(
-                top: 160,
-                left: 60,
-                child: Text(
-                  'Olá, Fulano',
-                  style: AppTextStyles.homeScreenGreetingsTextStyle,
-                ),
-              ),
-              const Align(
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextButton(
-                      onPressed: null,
-                      child: Text('Meus pratos',
+                      onPressed: () {
+                        var currentRoute = Modular.to.navigateHistory.last;
+                        if (currentRoute.name != '/home/') {
+                          Modular.to.navigate('/home/');
+                        } else {
+                          Modular.to.pop();
+                        }
+                      },
+                      child: const Text('Meus pratos',
                           style: AppTextStyles.drawerItemsTextStyle),
                     ),
-                    TextButton(
+                    const TextButton(
                       onPressed: null,
                       child: Text('Minhas refeições',
                           style: AppTextStyles.drawerItemsTextStyle),
                     ),
-                    TextButton(
+                    const TextButton(
                         onPressed: null,
-                        child: Text('Alimentos',
+                        child: Text('Meus alimentos',
                             style: AppTextStyles.drawerItemsTextStyle)),
-                    TextButton(
+                    const TextButton(
                         onPressed: null,
-                        child: Text('Bebidas',
+                        child: Text('Minhas bebidas',
                             style: AppTextStyles.drawerItemsTextStyle)),
-                    TextButton(
+                    const TextButton(
                         onPressed: null,
-                        child: Text('Perfil',
+                        child: Text('Configurações',
                             style: AppTextStyles.drawerItemsTextStyle)),
                   ],
                 ),
