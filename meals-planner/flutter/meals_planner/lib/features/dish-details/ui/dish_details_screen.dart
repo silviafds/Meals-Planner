@@ -46,6 +46,10 @@ class _DishDetailsScreenState extends State<DishDetailsScreen> {
                       decoration: BoxDecoration(
                         color: Colors.grey.shade400,
                       ),
+                      child: Image.asset(
+                        'assets/images/comidas.jpeg',
+                        fit: BoxFit.fill,
+                      ),
                     ),
                     Positioned(
                       bottom: 30,
@@ -54,7 +58,7 @@ class _DishDetailsScreenState extends State<DishDetailsScreen> {
                         padding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 20),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.3),
+                          color: Colors.black.withOpacity(0.6),
                         ),
                         child: SizedBox(
                           width: 400,

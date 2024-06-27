@@ -94,6 +94,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               TextFormField(
                 controller: _emailTextController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   isDense: true,
                   border: OutlineInputBorder(

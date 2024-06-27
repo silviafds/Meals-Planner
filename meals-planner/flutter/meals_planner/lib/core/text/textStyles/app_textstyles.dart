@@ -9,7 +9,7 @@ abstract class AppTextStyles {
       TextStyle(fontSize: 24, color: Colors.black87);
   static const dishCardCaloriesTextStyle =
       TextStyle(fontSize: 18, color: Colors.black87);
-  static const dishDetailsName = TextStyle(fontSize: 24, color: Colors.black87);
+  static const dishDetailsName = TextStyle(fontSize: 24, color: Colors.white);
   static const dishDetailsInfoTitle =
       TextStyle(fontSize: 22, color: Colors.black87);
   static const nutriciousInfoCardText =

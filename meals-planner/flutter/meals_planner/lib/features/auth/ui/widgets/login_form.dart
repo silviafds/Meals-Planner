@@ -68,6 +68,7 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
                 controller: _emailTextController,
                 decoration: InputDecoration(
                   isDense: true,
