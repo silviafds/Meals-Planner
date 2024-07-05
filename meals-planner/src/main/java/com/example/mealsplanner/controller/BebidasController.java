@@ -1,11 +1,10 @@
 package com.example.mealsplanner.controller;
 
 import com.example.mealsplanner.domain.bebidas.Bebidas;
+import com.example.mealsplanner.domain.bebidas.BebidaDTO;
 import com.example.mealsplanner.service.BebidasService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +24,13 @@ public class BebidasController {
     }
 
     @GetMapping("/listaBebidasIndividual/{id}")
-    public List<Bebidas> listarTodosAlimentos(@PathVariable Long id) {
+    public Bebidas listarTodosBebidas(@PathVariable Long id) {
         return bebidasService.buscarBebidasPorId(id);
     }
+
+    @PostMapping("/criarBebida")
+    public boolean cadastrarBebida(@RequestBody @Valid  BebidaDTO bebidaDto) {
+        return bebidasService.cadastrarBebida(bebidaDto);
+    }
+
 }

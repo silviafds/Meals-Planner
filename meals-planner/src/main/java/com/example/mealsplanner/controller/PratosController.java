@@ -3,10 +3,8 @@ package com.example.mealsplanner.controller;
 import com.example.mealsplanner.domain.pratos.PratoDTO;
 import com.example.mealsplanner.domain.pratos.Pratos;
 import com.example.mealsplanner.service.PratosService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
