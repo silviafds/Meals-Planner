@@ -12,6 +12,6 @@ public interface AlimentosRepository extends JpaRepository<Alimentos, Long> {
     List<Alimentos> buscarTodosAlimentos();
 
     @Query("SELECT a FROM Alimentos a where a.id = :id")
-    List<Alimentos> buscarAlimentosPorId(Long id);
+    Alimentos buscarAlimentosPorId(Long id);
 
 }
