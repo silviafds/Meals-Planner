@@ -1,5 +1,6 @@
 package com.example.mealsplanner.controller;
 
+import com.example.mealsplanner.domain.pratos.PratoDTO;
 import com.example.mealsplanner.domain.pratos.Pratos;
 import com.example.mealsplanner.service.PratosService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class PratosController {
     }
 
     @GetMapping("/listaPratosIndividual/{id}")
-    public List<Pratos> listarTodosPratos(@PathVariable Long id) {
+    public Pratos listarTodosPratos(@PathVariable Long id) {
         return pratosService.buscarPratosPorId(id);
     }
 
@@ -34,4 +35,9 @@ public class PratosController {
     public List<Pratos> filtrarPratos(@PathVariable BigDecimal calorias) {
         return pratosService.filtrarPatrosPorCaloria(calorias);
     }
+    @PostMapping("/cadastrarPrato")
+    public boolean cadastrarPrato(@RequestBody @Valid PratoDTO pratoDto) {
+       return pratosService.cadastroPrato(pratoDto);
+    }
+
 }

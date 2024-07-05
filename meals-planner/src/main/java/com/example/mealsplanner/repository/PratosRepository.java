@@ -13,7 +13,7 @@ public interface PratosRepository extends JpaRepository<Pratos, Long> {
     List<Pratos> buscarTodosPratos();
 
     @Query("SELECT p FROM Pratos p where p.id = :id")
-    List<Pratos> buscarPratosPorId(Long id);
+    Pratos buscarPratosPorId(Long id);
 
     @Query("SELECT p FROM Pratos p where p.calorias = :calorias")
     List<Pratos> listarPratosCaloria(BigDecimal calorias);

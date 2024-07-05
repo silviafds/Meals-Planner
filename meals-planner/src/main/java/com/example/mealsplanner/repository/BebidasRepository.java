@@ -12,6 +12,6 @@ public interface BebidasRepository extends JpaRepository<Bebidas, Long> {
     List<Bebidas> buscarTodasBebidas();
 
     @Query("SELECT b FROM Bebidas b where b.id = :id")
-    List<Bebidas> buscarBebidasPorId(Long id);
+    Bebidas buscarBebidasPorId(Long id);
 
 }
